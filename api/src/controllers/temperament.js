@@ -1,4 +1,4 @@
-const {Temperament} = require("../db");
+const {Dog, Temperament} = require("../db");
 
 function getAllTemperaments (req, res) {
     Temperament.findAll()
@@ -7,18 +7,19 @@ function getAllTemperaments (req, res) {
 }
 
 function addTemperament (req, res) {
+    console.log(req.body)
     const temperaments = req.body.temperament.replace(/ /g, "").split("-");
-    const idDog = req.params.id;
+    const idDog = req.query.id;
     if(!temperaments || !idDog) return res.status(400).send({type: "Bad request.", error: "Required fields must be defined."});
     let temperamentsToPromises = temperaments.map(temp => Temperament.findOrCreate({
         where: {name: temp}
     }));
-    Promise.all(temperamentsToPromises)
+    Promise.all([Dog.findOne({where: {id: idDog}})].concat(temperamentsToPromises))
     .then(data => {
-        let dogTemperaments = data.map(temp => temp[0].addDogs([itemsCreated[0]]));
+        let dogTemperaments = data.slice(1).map(temp => temp[0].addDogs(data[0]));
         return Promise.all(dogTemperaments);
     })
-    .then(data => res.send(data))
+    .then(data => res.send(temperaments))
     .catch(err => res.status(500).send({type: "Internal Server Error.", error: "Data validation failed."}));
 }
 
