@@ -19,10 +19,24 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const {RAZASURL} = require("./constants.js");
+const axios = require('axios');
+const {getApiTemperaments} = require("./utils.js");
+const {Temperament} = require("./src/db.js");
+const bucket = require("./src/storage.js");
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
   server.listen(3001, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+    console.log('%s listening at 3001');
+     // eslint-disable-line no-console
+  axios.get(RAZASURL)
+  .then(res => { 
+    let temps = getApiTemperaments(res.data);
+    let promisesTemps = temps.map(temperament => Temperament.create({name: temperament}));
+    return Promise.all(promisesTemps);
+   })
+   .catch(err => console.log(err));
   });
+  console.log("Conexión exitosa a " + bucket.name)
 });
