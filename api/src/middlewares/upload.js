@@ -1,7 +1,7 @@
 const multer = require("multer");
 const path = require("path");
 
-var fileFilter = (req, file, cb) => {
+const fileFilter = (req, file, cb) => {
     if(file) {
       file.mimetype === "image/jpeg" || file.mimetype === "image/png" ? cb(null, true) : cb(new Error("The file must be in jpeg / png format"), false);
     } else {
@@ -9,7 +9,7 @@ var fileFilter = (req, file, cb) => {
     }
 };
 
-var storage = multer.diskStorage ({
+const storage = multer.diskStorage ({
     destination: function (req, file, cb) {
       cb(null, __dirname.replace( "middlewares","public\\uploads"))
     },
@@ -18,10 +18,10 @@ var storage = multer.diskStorage ({
     }
   })
 
-var limits = {fileSize: 5 * 1024 * 1024}
+const limits = {fileSize: 5 * 1024 * 1024}
 
-module.exports = {
-    fileFilter,
-    storage,
-    limits
-}
+const upload= multer({
+  storage, fileFilter, limits
+  })
+
+module.exports = upload;

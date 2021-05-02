@@ -1,11 +1,12 @@
 const router = require('express').Router();
-const {getSomeDogs, addBreed, findById} = require ("../controllers/dogs.js")
+const {getSomeDogs, addBreed, findById, getDataBaseDogs} = require ("../controllers/dogs.js");
+const upload = require('../middlewares/upload.js');
 
 router.get("/", getSomeDogs);
+router.get("/dbdogs", getDataBaseDogs);
 router.get("/:id", findById);
 
-router.post("/", addBreed);
-
-//router.get("/dogs?name=")
+router.post("/", upload.single("image"), addBreed);
 
 module.exports = router;
+

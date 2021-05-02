@@ -1,0 +1,18 @@
+.pagination-button {
+    background-color: transparent;
+    background-repeat:no-repeat;
+    height:30px;
+    width:30px;
+    background-position:center;
+    background-size: 95%;
+    padding: 0;
+    border: none;
+}
+
+#pagination-button-left {
+    background-image: url("https://storage.googleapis.com/dogs-web-app/huellaLeft.png");
+}
+
+#pagination-button-right {
+    background-image: url("https://storage.googleapis.com/dogs-web-app/huellaRight.png");
+}

@@ -1,0 +1,75 @@
+#global-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#addBreed-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inputElement {
+    display: flex;
+    justify-content: center;
+    width: 500px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.inputElement>input.danger {
+    border: 2px solid red;
+}
+
+p.danger {
+    color: red;
+    font-size: 10px;
+}
+  
+.inputElement>input.success {
+    border: 2px solid #4bab85;
+    outline-width: 0.5em;
+}
+.inputElement>input {
+   margin-left: 20px;
+   width: 200px;
+   height: 25px;
+   padding: 0;
+   border-radius: 2px;
+   outline-color: #eaedbe;
+}
+#btn-form-dog {
+    width: 60px;
+}
+
+.inputElement>label {
+   width: 150px;
+   text-align: left;
+   font-weight: bold;
+}
+#input-file-container {
+    margin-left: 20px;
+    width: 200px;
+}
+#input-file{
+   color: transparent;
+   width: 136px ;
+   padding: 0px;
+}
+
+#form-response-container {
+    background-color: #eaedbe;
+    height: max-content;
+    width: 500px;
+    border-radius: 10px;
+    padding: 0.5em;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#link-dog-created {
+    color: #4bab85;
+    font-weight: bold;
+    font-size: large;
+}

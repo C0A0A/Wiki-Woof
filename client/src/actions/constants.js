@@ -1,0 +1,6 @@
+export const GET_DOG_DETAIL = "GET_DOG_DETAIL";
+export const SEARCH_DOGS= "SEARCH_DOG";
+export const ADD_BREED="ADD_BREED";
+export const GET_DB_DOGS="GET_DB_DOGS";
+export const GET_TEMPERAMENTS="GET_TEMPERAMENTS";
+export const ADD_TEMPERAMENT="ADD_TEMPERAMENT";

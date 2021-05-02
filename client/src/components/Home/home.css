@@ -1,0 +1,51 @@
+#tools-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#dogs-container {
+    display: flex;
+    margin-left: 50px;
+    margin-right: 50px;
+    flex-flow: wrap;
+    justify-content: space-around;
+    align-self: center;
+}
+
+.dog-container {
+    margin:0.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    padding: 0.3em;
+    background-color: #eaedbe;
+}
+
+.img-home {
+    width: 250px;
+    height: 250px;
+    border-radius: 5px;
+    padding: 0.3em;
+    align-self: center;
+    background-color: #eaedbe;
+}
+
+@supports(object-fit: cover){
+    .img-home{
+      object-fit: cover;
+      object-position: center center;
+    }
+}
+
+.link-dog-detail {
+    color: #000000;
+    font-size: large;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-dog-detail:hover {
+    color: #4bab85;
+}

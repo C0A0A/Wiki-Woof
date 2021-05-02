@@ -1,0 +1,31 @@
+#global-tempertament-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#form-search-container{
+    margin-top:20px;
+}
+
+#checkboxes-container {
+    margin:1em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.label-check{
+    width: 200px;
+    text-align: left;
+}
+
+p.danger {
+    color: red;
+    font-size: 12px;
+}
+.success {
+    border: 2px solid #4bab85;
+    outline-width: 0.5em;
+}
+
