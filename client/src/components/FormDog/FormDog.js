@@ -3,6 +3,7 @@ import "./formdog.css"
 import { connect } from "react-redux";
 import { NavLink } from 'react-router-dom';
 import {addBredd, getDogsCreated, getDogDetail} from "../../actions/index.js"
+import {setter} from "../FormTemperament/FormTemperament.js"
 
 export function validate(obj, dogs) {
   let errors = {};
@@ -12,7 +13,7 @@ export function validate(obj, dogs) {
   if(obj.name && !/^[A-Za-z\s]+$/g.test(obj.name)) {
     errors.name = "Sólo palabras sin tilde.";
   }
-  if(obj.name && dogs.find(dog => dog.name.toLowerCase().trim() === obj.name.toLowerCase().trim())) {
+  if(obj.name && dogs.length && dogs.find(dog => dog.name.toLowerCase().trim() === obj.name.toLowerCase().trim())) {
     errors.name = "La raza ya existe."
   }
   if (!obj.weight) {
@@ -27,8 +28,8 @@ export function validate(obj, dogs) {
   if (obj.height && !/[0-9-]+$/.test(obj.height)) {
     errors.height = "Sólo un rango de números, ejemplo: 5 - 8";
   }
-  if(obj.temperament && !/^[A-Za-z-\s]+$/g.test(obj.temperament)) {
-    errors.temperament = "Sólo palabras sin tilde separadas por guión medio";
+  if(obj.temperament && !/^[A-Za-z,\s]+$/g.test(obj.temperament)) {
+    errors.temperament = "Sólo palabras sin tilde separadas por coma.";
   }
   if(obj.file && (!/image\/jpeg|png/.test(obj.file.type) || obj.file.size > 5242880)) {
    errors.file = "Sólo imágenes .png y .jpeg, menores a 5.24 MB."
@@ -36,9 +37,10 @@ export function validate(obj, dogs) {
  
   return errors;
 };
-let init = false;
+
 export function FormDog(props) {
   const [errors, setErrors] = React.useState({});
+  const [state, setState] = React.useState(false);
   const [input, setInput] = React.useState({
     name: "",
     height: "",
@@ -49,11 +51,6 @@ export function FormDog(props) {
     file: ""
   });
   
-  useEffect(() => {
-    props.getDogDetail("falsoid");
-    const timer = setTimeout(() => {init = true}, 5000);
-    return () => clearTimeout(timer);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     props.getDogsCreated();
   }, [input.name]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -68,17 +65,10 @@ export function FormDog(props) {
     height: input.height,
     weight: input.weight,
     life_span: input.life_span,
-    temperament: input.temperament}))
-   props.addBredd(formData)
-   setInput({
-    name: "",
-    height: "",
-    weight: "",
-    life_span: "",
-    temperament: "",
-    image: "",
-    file: "",
-  });
+    temperament: input.temperament}));
+   props.addBredd(formData);
+   setState(true);
+   setter(input);
    document.getElementById("input-file").value="";
  }
 
@@ -176,7 +166,7 @@ function handleInputFile (e) {
       </div>
     <input id="btn-form-dog" className="btn-submit" type="submit" text="enviar" disabled={(errors.name || errors.weight || errors.height || errors.temperament || errors.image || input.name ==="" || input.weight=== "" || input.height=== "") ? "disabled" : ""}/>
     </form>
-    { props.dogDetail.name && init ? (
+    { props.dogDetail.name && state ? (
       <div id="form-response-container">
       <h3>¡Woof, woof! Muchas gracias por tu contribución!<br/>
       Observa tu creación:</h3>
@@ -201,7 +191,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
     addBredd: data => dispatch(addBredd(data)),
-    getDogsCreated: data => dispatch(getDogsCreated(data)),
+    getDogsCreated: (filter, filterValue) => dispatch(getDogsCreated(filter, filterValue)),
     getDogDetail: id => dispatch(getDogDetail(id))
     };
 } 

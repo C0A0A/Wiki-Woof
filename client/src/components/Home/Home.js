@@ -8,7 +8,7 @@ import {searchDogs} from "../../actions/index.js";
 
 export function Home (props) {
     useEffect(() => {
-        props.searchDogs();
+        !props.filterDogs && props.searchDogs();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

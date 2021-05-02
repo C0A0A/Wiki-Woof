@@ -2,69 +2,96 @@ import React, {useEffect, useState} from 'react';
 import "./formtemperament.css"
 import { connect } from "react-redux";
 import { NavLink } from 'react-router-dom';
-import {getTemperaments, searchDogs, addTemperament} from "../../actions/index.js"
+import {getTemperaments, addTemperament, getDogsCreated, searchDogs} from "../../actions/index.js"
 
-export function validate(input) {
+function validate(input) {
     let errors = {};
-    if(input.otros && !/^[A-Za-z-\s]+$/g.test(input.otros)) {
-        errors.otros = "Sólo palabras sin tilde separadas por guión medio";
+    if(input.otros && !/^[A-Za-z,\s]+$/g.test(input.otros)) {
+        errors.otros = "Sólo palabras sin tilde separadas por coma.";
       }
     return errors;
 }
+export function setter (input) {
+    for(const key in input) {
+        if (typeof input[key] === "boolean") {
+        input[key] = false
+        } else {
+            input[key] = ""
+        }
+}
+return input
+}
 
-let init = false;
-export function FormTemperament ({temperaments, getTemperaments, searchDogs, filterDogs, addTemperament}) {
+export function FormTemperament ({allTemperaments, getTemperaments, dogsCreated, addTemperament, temperamentDetail, getDogsCreated, searchDogs}) {
     useEffect(() => {
         getTemperaments();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
-    const [input, setInput] = useState({
+    const [temperaments, setTemperaments] = useState({
         otros:""
-    })
-    const [inputSearch, setInputSearch] = useState ({
-        filterValue: "",
-        idSelected: ""
-      });
+    });
+    const [filterValue, setFilter] = useState("");
+    const [dogs, setDogs] = useState ({});
     const [errors, setErrors] = useState({});
+    const [state, setState] = useState({
+        init: false,
+        completed: false
+    });
+
+    function handleFinal () {
+        searchDogs("name", filterValue);
+        setFilter("");
+        setState({
+            ...state,
+            completed: false,
+        });
+    }
     
     function handleSubmitSearch(e) {
         e.preventDefault();
-        init = true;
-        searchDogs(inputSearch.filterValue);
+        setState({
+            ...state,
+            init: true
+        });
+        getDogsCreated("name", filterValue);
     }
  
     function submiting (e) {
         e.preventDefault();
-        let temperamentsValues = Object.entries(input);
-        let resultTemperaments= temperamentsValues.map(item=> item[1] === true ? item[0] : "").join(" ");
+        let dogsEntries = Object.entries(dogs);
+        let resultDogs = dogsEntries.map(item=> item[1] === true ? item[0] : "").join(",");
+        let temperamentsEntries = Object.entries(temperaments);
+        let resultTemperaments= temperamentsEntries.map(item=> item[1] === true ? item[0] : "").join(",") + `,${temperaments.otros}`;
         addTemperament({
-            id: Object.keys(inputSearch.idSelected).join(""),
-            temperament: resultTemperaments})
+            id: resultDogs,
+            temperament: resultTemperaments});
+        setTemperaments(setter(temperaments));
+        setDogs(setter(dogs));
+        setState({
+            completed: true,
+            init: false
+        });
     }
     function handleChangeSearch(e) {
-        setInputSearch({
-            ...inputSearch,
-            [e.target.name]: e.target.value
-          });
-      }
+        setFilter(e.target.value);
+    }
     function handleChangeId(e) {
-        setInputSearch({
-            ...inputSearch,
-            idSelected: {[e.target.name]: e.target.value}
-          });
-      }
-      function handleChange(e) {
-        setInput({
-            ...input,
+        setDogs({
+            ...dogs,
+            [e.target.name]: e.target.checked
+        });
+    }
+    function handleChangeTemp(e) {
+        setTemperaments({
+            ...temperaments,
             [e.target.name]: e.target.checked
           });
     }
-    function handleChangeTemp(e) {
-        setInput({
-            ...input,
+    function handleChangeOtrosTemp(e) {
+        setTemperaments({
+            ...temperaments,
             [e.target.name]: e.target.value
           });
         setErrors(validate({
-            ...input,
             [e.target.name]: e.target.value,
         }));
     }
@@ -77,17 +104,17 @@ export function FormTemperament ({temperaments, getTemperaments, searchDogs, fil
               id="filterValue"
               name="filterValue"
               placeholder="Ingrese el nombre de la raza..."
-              value={inputSearch.filterValue}
+              value={filterValue}
               onChange={handleChangeSearch}
              />
              <button className="btn-submit" type="submit">BUSCAR</button>
              </form>
-             {filterDogs.dogs && init ? filterDogs.dogs.map((dog, i) =>
+             {dogsCreated.length && state.init ? dogsCreated.map((dog, i) =>
                 <div key={dog.id} className="dog-container">
                    { dog.image_url && (<img key={i + "-image"} src={dog.image_url} className="img-home" alt={dog.name}/>)}
                     <NavLink exact to={`/dogs/${dog.id}`} className="link-dog-detail" >{dog.name}</ NavLink>
                     <label key={"label" + dog} for={i}>
-                    <input key={"check" + dog} type="checkbox" name={dog.id} id={dog + i} onClick={handleChangeId}/>Seleccionar</label>
+                    <input key={"check" + dog} type="checkbox" checked={dogs[dog.id]} name={dog.id} id={dog + i} onClick={handleChangeId}/>Seleccionar</label>
                     {dog.temperament ? (<span key={i + dog.temperament}>{dog.temperament}</span>) : (<span>Woof? Puedes agregar mi
                         <NavLink exact to={`/temperament/`} className="link-dog-detail" >{" temperamento"}</ NavLink>?</span>)
                         }                   
@@ -96,9 +123,9 @@ export function FormTemperament ({temperaments, getTemperaments, searchDogs, fil
             <form id="form-temperaments-container" onSubmit={submiting}>  
                 <div id="checkboxes-container">
                 {
-                    temperaments.map((temp, i) => 
+                    allTemperaments.map((temp, i) => 
                     <label className="label-check" key={"label" + temp} for={i}>
-                    <input key={"check" + temp} type="checkbox" name={temp} id={temp + i} onClick={handleChange}/>{temp}</label>
+                    <input id={temp + i} key={"check" + temp} type="checkbox" name={temp} checked={temperaments[temp]} onClick={handleChangeTemp}/>{temp}</label>
                     )
                 }
                 </div>
@@ -108,34 +135,45 @@ export function FormTemperament ({temperaments, getTemperaments, searchDogs, fil
                 className= {errors.otros ? "danger" : "success"}
                 name="otros"
                 placeholder="Crear otros temperamentos..."
-                value={input.otros}
-                onChange={handleChangeTemp}
+                value={temperaments.otros}
+                onChange={handleChangeOtrosTemp}
                 />
                 {errors.otros && (
                 <p className="danger">{errors.otros}</p>
                 )}
-                <button className="btn-submit" type="submit" disabled={(errors.otros || !inputSearch.idSelected) ? "disabled" : ""}>AÑADIR</button>
-            </form>
+                <button className="btn-submit" type="submit" disabled={(errors.otros || !dogs || !state.init) ? "disabled" : ""}>AÑADIR</button>
+            </form>            
+            { temperamentDetail[0] && state.completed ? (
+                <div id="form-temp-response-success"> 
+                <h3>¡Woof, woof! Muchas gracias por tu contribución! </h3>
+                <NavLink exact to={`/dogs/`} onClick={handleFinal}>Observa tu creación</NavLink>
+                </div>
+            ) : <div></div>
+            }
+            { !temperamentDetail[0] && state.completed ? (
+                 <h3>Woof? Algo salió mal. ¡Inténtalo de nuevo!</h3>
+            ) : <div></div>
+            }
         </div>
-    )  
-
-}
+        );
+    }
 
 
 
 function mapStateToProps(state) {
     return {
-      temperaments: state.temperaments,
-      filterDogs: state.filterDogs,
-      temperamentDetail: state. temperamentDetail
+        allTemperaments: state.temperaments,
+        dogsCreated: state.dogsCreated,
+        temperamentDetail: state.temperamentDetail
     }
 }
   
 function mapDispatchToProps(dispatch) {
     return {
     getTemperaments: () => dispatch(getTemperaments()),
-    searchDogs: (filter, filterValue, order, direction, mix, standarLimit) => dispatch(searchDogs(filter, filterValue, order, direction, mix, standarLimit)),
-    addTemperament: (data) => dispatch(addTemperament(data))
+    addTemperament: data => dispatch(addTemperament(data)),
+    getDogsCreated: (filter, filterValue) => dispatch(getDogsCreated(filter, filterValue)),
+    searchDogs: (filter, filterValue, order, direction, standarLimit) => dispatch(searchDogs(filter, filterValue, order, direction, standarLimit))
     };
 } 
 

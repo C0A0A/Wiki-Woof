@@ -12,7 +12,6 @@
     margin:1em;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
 .label-check{
@@ -29,3 +28,11 @@ p.danger {
     outline-width: 0.5em;
 }
 
+.link-dog-created {
+    color: #4bab85
+}
+
+#form-temp-response{
+    display: flex;
+    align-items: center;
+}

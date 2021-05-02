@@ -1,7 +1,7 @@
 import {GET_DOG_DETAIL, SEARCH_DOGS, ADD_BREED, GET_DB_DOGS, GET_TEMPERAMENTS, ADD_TEMPERAMENT} from "./constants.js"
 
 
-export function searchDogs (filter="name", filterValue="", order="id", direction="ASC", mix="false", standarLimit=8) {    
+export function searchDogs (filter="name", filterValue="", order="id", direction="ASC", standarLimit=8) {    
         return function(dispatch) { // eslint-disable-next-line
           return fetch("http://localhost:3001/dogs/?" + `filter=${filter}&`+`filtervalue=${filterValue}&`+ `orderby=${order}&`+ `direction=${direction}&`+`limit=${standarLimit}&`)  
           .then(response => response.json())
@@ -34,9 +34,9 @@ export function getDogDetail (id) {
     };
 }
 
-export function getDogsCreated () {
+export function getDogsCreated (filter="name", filterValue) {
   return function(dispatch) {
-      return fetch("http://localhost:3001/dogs/dbdogs")
+      return fetch("http://localhost:3001/dogs/dbdogs/?"+`filter=${filter}&`+`filtervalue=${filterValue}`)
         .then(response => response.json())
         .then(json => {
           dispatch({ type: GET_DB_DOGS, payload: json });
