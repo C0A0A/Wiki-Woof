@@ -11,7 +11,6 @@ function getAllTemperaments (req, res) {
 }
 
 function addTemperament (req, res) {
-    console.log(req.body.id)
     const temperaments = req.body.temperament.split(",").map(item => item.trim()).filter(item => item !== "");
     const idDog = req.body.id.split(",").filter(item => item !== "");
 
