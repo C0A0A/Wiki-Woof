@@ -1,84 +1,132 @@
-import React, { useState} from "react";
-import "./search.css";
-import { connect } from "react-redux";
-import {searchDogs} from "../../actions/index"
+import React, {useState} from 'react';
+import './search.css';
+import {connect} from 'react-redux';
+import {searchDogs, searchDogsNavigation} from '../../actions/index';
 
-export function Search (props) {
-  const [input, setInput] = useState ({
-    filter: "name",
-    filterValue: "",
-    order: "id",
-    direction: "ASC",
-    standarLimit:""
-  });
+export function Search(props) {
+	const [input, setInput] = useState({
+		filter: 'name',
+		filterValue: '',
+		order: 'id',
+		direction: 'ASC',
+		standarLimit: '',
+	});
 
-  function handleChange(e) {
-    setInput({
-        ...input,
-        [e.target.name]: e.target.value
-      });
-  }
-  function handleSubmit(e) {
-    e.preventDefault();
-    props.searchDogs(input.filter, input.filterValue, input.order, input.direction, input.standarLimit);
+	function handleChange(e) {
+		setInput({
+			...input,
+			[e.target.name]: e.target.value,
+		});
+	}
+	function handleSubmit(e) {
+		e.preventDefault();
+		props.searchDogs(
+			input.filter,
+			input.filterValue,
+			input.order,
+			input.direction,
+			input.standarLimit
+		);
+	}
+	function handleClick(e) {
+		e.target.name === 'left'
+			? props.searchDogsNavigation(props.filterDogs.previousUrl)
+			: props.searchDogsNavigation(props.filterDogs.nextUrl);
+	}
 
-  }
+	return (
+		<div className='searchContainer'>
+			<form className='form-container' onSubmit={(e) => handleSubmit(e)}>
+				<button
+					id='pagination-button-left'
+					className='pagination-button'
+					name='left'
+					onClick={handleClick}
+					disabled={props.filterDogs.previousUrl ? '' : 'disabled'}
+				></button>
+				<div className='search-div'>
+					<select
+						name='filter'
+						value={input.filter}
+						onChange={(e) => handleChange(e)}
+					>
+						<option value='name'>Raza</option>
+						<option value='weight'>Peso</option>
+						<option value='height'>Altura</option>
+						<option value='life_span'>Esperanza de vida</option>
+						<option value='temperament'>Temperamento</option>
+					</select>
+					<input
+						type='text'
+						id='filterValue'
+						name='filterValue'
+						placeholder='Filtrar por...'
+						value={input.filterValue}
+						onChange={handleChange}
+					/>
+				</div>
+				<div className='search-div'>
+					<select
+						name='order'
+						value={input.order}
+						onChange={(e) => handleChange(e)}
+					>
+						<option value='id'>Estándar</option>
+						<option value='name'>Raza</option>
+						<option value='weight'>Peso</option>
+						<option value='height'>Altura</option>
+						<option value='life_span'>Esperanza de vida</option>
+						<option value='temperament'>Temperamento</option>
+					</select>
+					<select
+						name='direction'
+						value={input.direction}
+						onChange={(e) => handleChange(e)}
+					>
+						<option value='ASC'>ASC</option>
+						<option value='DESC'>DESC</option>
+					</select>
+				</div>
+				<div className='search-div'>
+					<label>Mostrar:</label>
+					<select
+						name='standarLimit'
+						value={input.standarLimit}
+						onChange={(e) => handleChange(e)}
+					>
+						<option value='8'>8</option>
+						<option value='16'>16</option>
+						<option value='24'>24</option>
+					</select>
+				</div>
+				<button className='btn-submit' type='submit'>
+					BUSCAR
+				</button>
 
-    return (
-      <div className="searchContainer">
-        <form className="form-container" onSubmit={(e) => handleSubmit(e)}>
-            <label>Filtrar por:</label>          
-            <select name="filter" value={input.filter} onChange={(e) => handleChange(e)}>
-            <option value="name">Raza</option>
-            <option value="weight">Peso</option>
-            <option value="height">Altura</option>
-            <option value="life_span">Esperanza de vida</option>
-            <option value="temperament">Temperamento</option>
-            </select>
-            <input
-              type="text"
-              id="filterValue"
-              name="filterValue"
-              placeholder="Ingrese un valor de filtro"
-              value={input.filterValue}
-              onChange={handleChange}
-            />
-            <label>Ordenar por:</label>          
-            <select name="order" value={input.order} onChange={(e) => handleChange(e)}>
-            <option value="id">Estándar</option>
-            <option value="name">Raza</option>
-            <option value="weight">Peso</option>
-            <option value="height">Altura</option>
-            <option value="life_span">Esperanza de vida</option>
-            <option value="temperament">Temperamento</option>
-            </select>
-            <select name="direction" value={input.direction} onChange={(e) => handleChange(e)}>
-            <option value="ASC">ASC</option>
-            <option value="DESC">DESC</option>
-            </select>
-            <label>Mostrar:</label>
-            <input
-              type="number"
-              id="standarLimit"
-              name="standarLimit"
-              disabled={input.mix==="true" ? "disabled" : ""}
-              value={input.standarLimit}
-              onChange={handleChange}
-            />
-          <button className="btn-submit" type="submit">BUSCAR</button>
-        </form>
-      </div>
-    );
-  }
+				<button
+					id='pagination-button-right'
+					className='pagination-button'
+					name='right'
+					onClick={handleClick}
+					disabled={props.filterDogs.nextUrl ? '' : 'disabled'}
+				></button>
+			</form>
+		</div>
+	);
+}
 
+function mapStateToProps(state) {
+	return {
+		filterDogs: state.filterDogs,
+	};
+}
 
 function mapDispatchToProps(dispatch) {
-  return {
-    searchDogs: (filter, filterValue, order, direction, standarLimit) => dispatch(searchDogs(filter, filterValue, order, direction, standarLimit))
-  };
-} 
+	return {
+		searchDogs: (filter, filterValue, order, direction, standarLimit) =>
+			dispatch(searchDogs(filter, filterValue, order, direction, standarLimit)),
+		searchDogsNavigation: (url) => dispatch(searchDogsNavigation(url)),
+	};
+}
 
- export default connect(
-  null,
-  mapDispatchToProps 
-)(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

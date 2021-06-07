@@ -1,25 +1,25 @@
 #landing-text {
-    margin-top: 390px;
-    margin-left: 200px;
-    margin-right: 200px;
+	margin-top: 390px;
+	margin-left: 200px;
+	margin-right: 200px;
 }
 #landing-call-to-action {
-    font-weight: 5px;
+	font-weight: 5px;
 }
 
 #landing-title {
-    margin: 0.2em;
+	margin: 0.2em;
 }
 
 #link-home {
-margin-left: 20px;
-background-color: #eaedbe;
-border-radius: 5px;
-width: 80px;
+	margin-left: 20px;
+	background-color: #eaedbe;
+	border-radius: 5px;
+	width: 80px;
 }
 
-#sub{
-    display:flex;
-    justify-content: center;
-    align-items: center;
+#sub {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
