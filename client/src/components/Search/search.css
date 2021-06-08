@@ -40,6 +40,7 @@ input {
 	border-width: 0px;
 	border-radius: 0.8rem;
 	padding-left: 0.5rem;
+	color: #0bc0d6;
 }
 
 input:focus {
@@ -78,8 +79,8 @@ input:focus {
 .pagination-button {
 	background-color: transparent;
 	background-repeat: no-repeat;
-	height: 3rem;
-	width: 3rem;
+	height: 2.5rem;
+	width: 2.5rem;
 	background-position: center;
 	background-size: 95%;
 	padding: 0;

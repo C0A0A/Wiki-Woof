@@ -12,14 +12,19 @@
 	margin-top: 20px;
 	background-color: white;
 	width: 40%;
-	height: 25rem;
+	height: max-content;
 	border-radius: 1rem;
+	padding: 2rem;
+}
+
+h2 {
+	color: black;
 }
 
 .inputElement {
 	display: flex;
 	justify-content: center;
-	width: 500px;
+	width: 100%;
 	margin-bottom: 10px;
 	align-items: center;
 }
@@ -28,8 +33,11 @@
 }
 
 p.danger {
+	display: flex;
+	justify-content: center;
 	color: rgb(255, 94, 0);
 	font-size: 10px;
+	text-align: center;
 }
 
 .inputElement > input.success {
@@ -45,9 +53,9 @@ p.danger {
 	outline-color: #0bc0d6;
 }
 #btn-form-dog {
-	margin-top: 1.5rem;
 	width: 5rem;
 	height: 2rem;
+	align-items: center;
 }
 
 .inputElement > label {
@@ -56,26 +64,39 @@ p.danger {
 	font-weight: bold;
 }
 #input-file-container {
-	margin-left: 20px;
-	width: 200px;
+	display: flex;
+	width: max-content;
 }
 #input-file {
-	color: transparent;
-	width: 136px;
 	padding: 0px;
+	width: 100%;
+	display: none;
+}
+
+.labelFile {
+	display: flex;
+	justify-content: left;
+	padding: 0px;
+	font-size: xx-large;
+	align-items: center;
+}
+#label-imagen {
+	width: max-content;
+	margin-right: 10px;
 }
 
 #form-response-container {
 	background-color: #ffffff;
+	color: black;
 	height: max-content;
-	width: 500px;
+	width: 40%;
 	border-radius: 10px;
-	padding: 0.5em;
+	padding: 2rem;
 	align-items: center;
 	margin-top: 20px;
 }
 
-#link-dog-created {
+.link-created {
 	color: #00c0a0;
 	font-weight: bold;
 	font-size: large;

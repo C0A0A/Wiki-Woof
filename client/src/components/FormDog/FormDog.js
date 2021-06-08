@@ -4,14 +4,17 @@ import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import {addBredd, getDogsCreated, getDogDetail} from '../../actions/index.js';
 import {setter} from '../FormTemperament/FormTemperament.js';
+import {FcAddImage} from 'react-icons/fc';
 
 export function validate(obj, dogs) {
 	let errors = {};
 	if (!obj.name) {
 		errors.name = 'Campo requerido.';
+		return errors;
 	}
 	if (obj.name && !/^[A-Za-z\s]+$/g.test(obj.name)) {
 		errors.name = 'Sólo palabras sin tilde.';
+		return errors;
 	}
 	if (
 		obj.name &&
@@ -21,27 +24,34 @@ export function validate(obj, dogs) {
 		)
 	) {
 		errors.name = 'La raza ya existe.';
+		return errors;
 	}
 	if (!obj.weight) {
 		errors.weight = 'Campo requerido.';
+		return errors;
 	}
 	if (obj.weight && !/[0-9-]+$/.test(obj.weight)) {
 		errors.weight = 'Sólo un rango de números, ejemplo: 5 - 8';
+		return errors;
 	}
 	if (!obj.height) {
 		errors.height = 'Campo requerido.';
+		return errors;
 	}
 	if (obj.height && !/[0-9-]+$/.test(obj.height)) {
 		errors.height = 'Sólo un rango de números, ejemplo: 5 - 8';
+		return errors;
 	}
 	if (obj.temperament && !/^[A-Za-z,\s]+$/g.test(obj.temperament)) {
 		errors.temperament = 'Sólo palabras sin tilde separadas por coma.';
+		return errors;
 	}
 	if (
 		obj.file &&
 		(!/image\/jpeg|png/.test(obj.file.type) || obj.file.size > 5242880)
 	) {
 		errors.file = 'Sólo imágenes .png y .jpeg, menores a 5.24 MB.';
+		return errors;
 	}
 
 	return errors;
@@ -126,7 +136,7 @@ export function FormDog(props) {
 			setInput({
 				...input,
 				image: '',
-				file: '',
+				file: {},
 			});
 		}
 	}
@@ -148,8 +158,8 @@ export function FormDog(props) {
 						onChange={(e) => handleInputChange(e)}
 						value={input.name}
 					/>
-					{errors.name && <p className='danger'>{errors.name}</p>}
 				</div>
+				{errors.name && <p className='danger'>{errors.name}</p>}
 				<div class='inputElement'>
 					<label class='labelElement'>Peso (kg):</label>
 					<input
@@ -159,8 +169,8 @@ export function FormDog(props) {
 						value={input.weight}
 						onChange={(e) => handleInputChange(e)}
 					/>
-					{errors.weight && <p className='danger'>{errors.weight}</p>}
 				</div>
+				{errors.weight && <p className='danger'>{errors.weight}</p>}
 				<div class='inputElement'>
 					<label class='labelElement'>Altura (m):</label>
 					<input
@@ -170,8 +180,8 @@ export function FormDog(props) {
 						value={input.height}
 						onChange={(e) => handleInputChange(e)}
 					/>
-					{errors.height && <p className='danger'>{errors.height}</p>}
 				</div>
+				{errors.height && <p className='danger'>{errors.height}</p>}
 				<div className='inputElement'>
 					<label className='labelElement'>Esperanza de vida:</label>
 					<input
@@ -191,38 +201,40 @@ export function FormDog(props) {
 						value={input.temperament}
 						onChange={(e) => handleInputChange(e)}
 					/>
-					{errors.temperament && <p className='danger'>{errors.temperament}</p>}
 				</div>
+				{errors.temperament && <p className='danger'>{errors.temperament}</p>}
 				<div class='inputElement'>
-					<label class='labelElement'>Imagen:</label>
 					<div id='input-file-container'>
-						<input
-							id='input-file'
-							type='file'
-							name='image'
-							onChange={(e) => handleInputFile(e)}
-						/>
+						<label for='input-file' className='labelFile'>
+							<input
+								id='input-file'
+								type='file'
+								name='image'
+								onChange={(e) => handleInputFile(e)}
+							/>
+							<FcAddImage />
+						</label>
 					</div>
-					{errors.file && <p className='danger'>{errors.file}</p>}
+					<input
+						id='btn-form-dog'
+						className='btn-submit'
+						type='submit'
+						text='enviar'
+						disabled={
+							errors.name ||
+							errors.weight ||
+							errors.height ||
+							errors.temperament ||
+							errors.image ||
+							input.name === '' ||
+							input.weight === '' ||
+							input.height === ''
+								? 'disabled'
+								: ''
+						}
+					/>
 				</div>
-				<input
-					id='btn-form-dog'
-					className='btn-submit'
-					type='submit'
-					text='enviar'
-					disabled={
-						errors.name ||
-						errors.weight ||
-						errors.height ||
-						errors.temperament ||
-						errors.image ||
-						input.name === '' ||
-						input.weight === '' ||
-						input.height === ''
-							? 'disabled'
-							: ''
-					}
-				/>
+				{errors.file && <p className='danger'>{errors.file}</p>}
 			</form>
 			{props.dogDetail.name && state ? (
 				<div id='form-response-container'>
@@ -234,7 +246,7 @@ export function FormDog(props) {
 					<NavLink
 						exact
 						to={`/dogs/${props.dogDetail.id}`}
-						id='link-dog-created'
+						className='link-created'
 					>
 						{props.dogDetail.name}
 					</NavLink>
