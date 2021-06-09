@@ -36,14 +36,15 @@ export function Search(props) {
 
 	return (
 		<div className='searchContainer'>
+			<button
+				id='pagination-button-left'
+				type='button'
+				className='pagination-button'
+				name='left'
+				onClick={handleClick}
+				disabled={props.filterDogs.previousUrl ? '' : 'disabled'}
+			></button>
 			<form className='form-container' onSubmit={(e) => handleSubmit(e)}>
-				<button
-					id='pagination-button-left'
-					className='pagination-button'
-					name='left'
-					onClick={handleClick}
-					disabled={props.filterDogs.previousUrl ? '' : 'disabled'}
-				></button>
 				<div className='search-div'>
 					<select
 						name='filter'
@@ -102,15 +103,15 @@ export function Search(props) {
 				<button className='btn-submit' type='submit'>
 					BUSCAR
 				</button>
-
-				<button
-					id='pagination-button-right'
-					className='pagination-button'
-					name='right'
-					onClick={handleClick}
-					disabled={props.filterDogs.nextUrl ? '' : 'disabled'}
-				></button>
 			</form>
+			<button
+				id='pagination-button-right'
+				className='pagination-button'
+				type='button'
+				name='right'
+				onClick={handleClick}
+				disabled={props.filterDogs.nextUrl ? '' : 'disabled'}
+			></button>
 		</div>
 	);
 }

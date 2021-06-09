@@ -1,13 +1,13 @@
 .dog-detail {
-    width: 400px;
+	width: 400px;
 }
 
-#img-dog-detail {
-    height: auto;
-    width: 400px;
+.img-dog-detail {
+	height: auto;
+	width: 400px;
 }
 
-#global-dob-container {
-    display: flex;
-    justify-content: center;
+#global-dog-container {
+	display: flex;
+	justify-content: center;
 }

@@ -7,10 +7,10 @@ import {
 	addTemperament,
 	getDogsCreated,
 	searchDogs,
+	emptyTemperamentDetail,
 } from '../../actions/index.js';
 
 function validate(input, dogs) {
-	console.log(input, dogs);
 	let errors = {};
 	if (!Object.values(dogs).length) {
 		errors.otros = 'No olvides elegir al menos una raza.';
@@ -61,6 +61,9 @@ export function FormTemperament({
 	useEffect(() => {
 		getTemperaments();
 		getDogsCreated('name', '');
+		return () => {
+			emptyTemperamentDetail();
+		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 	const [temperaments, setTemperaments] = useState({
 		otros: '',
@@ -92,6 +95,7 @@ export function FormTemperament({
 			id: resultDogs,
 			temperament: resultTemperaments,
 		});
+		getTemperaments();
 		setTemperaments(setter(temperaments));
 		setDogs({});
 		setFilter('');
@@ -245,17 +249,7 @@ export function FormTemperament({
 								{dog.temperament ? (
 									<span key={i + dog.temperament}>{dog.temperament}</span>
 								) : (
-									<span>
-										Woof? Puedes agregar mi
-										<NavLink
-											exact
-											to={`/temperament/`}
-											className='link-dog-detail'
-										>
-											{' temperamento'}
-										</NavLink>
-										?
-									</span>
+									<span>Woof? Puedes agregar mi temperamento?</span>
 								)}
 							</div>
 						))
@@ -313,22 +307,29 @@ export function FormTemperament({
 					</div>
 				</form>
 			</div>
-			{errors.otros && <p id='danger-alert'>{'! ' + errors.otros}</p>}
-			{temperamentDetail[0] && state.completed ? (
-				<div id='form-temp-response-success'>
-					<h3>¡Woof, woof! Muchas gracias por tu contribución! </h3>
-					<NavLink exact to={`/dogs/`} className='link-created'>
-						Observa tu creación
-					</NavLink>
-				</div>
-			) : (
-				<div></div>
-			)}
-			{!temperamentDetail[0] && state.completed ? (
-				<h3>Woof? Algo salió mal. ¡Inténtalo de nuevo!</h3>
-			) : (
-				<div></div>
-			)}
+			{errors.otros && <p className='danger-alert'>{'! ' + errors.otros}</p>}
+			<div id={temperamentDetail[0] ? 'form-temp-response-success' : 'null'}>
+				{temperamentDetail && temperamentDetail.length && state.completed ? (
+					<h3>
+						¡Woof, woof! Muchas gracias por tu contribución! Observa tu creación
+					</h3>
+				) : null}
+				{temperamentDetail && state.completed
+					? temperamentDetail.map((temp, i) => (
+							<NavLink
+								key={i + temp + 'link'}
+								exact
+								to={`/dogs/${temp.dogId}`}
+								className='link-created'
+							></NavLink>
+					  ))
+					: null}
+			</div>
+			{temperamentDetail && !temperamentDetail.length && state.completed ? (
+				<h3 className='danger-alert'>
+					Woof? Algo salió mal. ¡Inténtalo de nuevo!
+				</h3>
+			) : null}
 		</div>
 	);
 }
@@ -349,6 +350,7 @@ function mapDispatchToProps(dispatch) {
 			dispatch(getDogsCreated(filter, filterValue)),
 		searchDogs: (filter, filterValue, order, direction, standarLimit) =>
 			dispatch(searchDogs(filter, filterValue, order, direction, standarLimit)),
+		emptyTemperamentDetail: () => dispatch(emptyTemperamentDetail()),
 	};
 }
 

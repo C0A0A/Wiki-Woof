@@ -236,7 +236,7 @@ export function FormDog(props) {
 				</div>
 				{errors.file && <p className='danger'>{errors.file}</p>}
 			</form>
-			{props.dogDetail.name && state ? (
+			{props.dogDetail && props.dogDetail.name && state ? (
 				<div id='form-response-container'>
 					<h3>
 						¡Woof, woof! Muchas gracias por tu contribución!
@@ -254,6 +254,11 @@ export function FormDog(props) {
 			) : (
 				<div></div>
 			)}
+			{props.dogDetail && props.dogDetail.error && state ? (
+				<div id='form-response-container'>
+					<h3>Woof? Algo salió mal. ¡Inténtalo de nuevo!</h3>
+				</div>
+			) : null}
 		</div>
 	);
 }

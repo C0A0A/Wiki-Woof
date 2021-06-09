@@ -40,7 +40,7 @@
 	text-align: left;
 }
 
-#danger-alert {
+.danger-alert {
 	background-color: #ffffffad;
 	color: rgb(255, 94, 0);
 	font-size: medium;

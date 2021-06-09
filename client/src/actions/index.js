@@ -5,6 +5,7 @@ import {
 	GET_DB_DOGS,
 	GET_TEMPERAMENTS,
 	ADD_TEMPERAMENT,
+	EMPTY_TEMPERAMENT_DETAIL,
 } from './constants.js';
 
 export function searchDogs(
@@ -114,4 +115,8 @@ export function addTemperament(data) {
 			})
 			.catch((err) => err);
 	};
+}
+
+export function emptyTemperamentDetail() {
+	return {type: EMPTY_TEMPERAMENT_DETAIL, payload: []};
 }

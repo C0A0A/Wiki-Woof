@@ -1,25 +1,27 @@
-#landing-text {
-	margin-top: 390px;
-	margin-left: 200px;
-	margin-right: 200px;
-}
-#landing-call-to-action {
-	font-weight: 5px;
+#landing-title {
+	margin: 5vh;
 }
 
-#landing-title {
-	margin: 0.2em;
+#landing-text {
+	color: black;
 }
 
 #link-home {
 	margin-left: 20px;
-	background-color: #eaedbe;
-	border-radius: 5px;
-	width: 80px;
+	background-color: #0bc0d6;
+	border-radius: 0.8rem;
+	width: max-content;
+	height: max-content;
+	text-align: center;
+	color: #ffffff;
+	padding: 0.5rem;
 }
 
 #sub {
+	background-color: #ffffff;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin-top: 65vh;
 }
