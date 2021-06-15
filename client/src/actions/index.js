@@ -18,7 +18,7 @@ export function searchDogs(
 	return function (dispatch) {
 		// eslint-disable-next-line
 		return fetch(
-			'http://localhost:3001/dogs/?' +
+			`${process.env.REACT_APP_BACKEND_URL}dogs/?` +
 				`filter=${filter}&` +
 				`filtervalue=${filterValue}&` +
 				`orderby=${order}&` +
@@ -46,7 +46,7 @@ export function searchDogsNavigation(url) {
 
 export function getDogDetail(id) {
 	return function (dispatch) {
-		return fetch('http://localhost:3001/dogs/' + id)
+		return fetch(`${process.env.REACT_APP_BACKEND_URL}` + id)
 			.then((response) => response.json())
 			.then((json) => {
 				dispatch({type: GET_DOG_DETAIL, payload: json});
@@ -59,7 +59,7 @@ export function getDogsCreated(filter = 'name', filterValue) {
 	// eslint-disable-next-line
 	return function (dispatch) {
 		return fetch(
-			'http://localhost:3001/dogs/dbdogs/?' +
+			`${process.env.REACT_APP_BACKEND_URL}` +
 				`filter=${filter}&` +
 				`filtervalue=${filterValue}`
 		)
@@ -73,7 +73,7 @@ export function getDogsCreated(filter = 'name', filterValue) {
 
 export function addBredd(data) {
 	return function (dispatch) {
-		return fetch('http://localhost:3001/dogs/', {
+		return fetch(`${process.env.REACT_APP_BACKEND_URL}`, {
 			method: 'POST',
 			body: data,
 			headers: {
@@ -90,7 +90,7 @@ export function addBredd(data) {
 
 export function getTemperaments() {
 	return function (dispatch) {
-		return fetch('http://localhost:3001/temperament')
+		return fetch(`${process.env.REACT_APP_BACKEND_URL}`)
 			.then((response) => response.json())
 			.then((json) => {
 				dispatch({type: GET_TEMPERAMENTS, payload: json});
@@ -101,7 +101,7 @@ export function getTemperaments() {
 
 export function addTemperament(data) {
 	return function (dispatch) {
-		return fetch('http://localhost:3001/temperament/', {
+		return fetch(`${process.env.REACT_APP_BACKEND_URL}`, {
 			method: 'POST',
 			body: JSON.stringify(data),
 			headers: {
