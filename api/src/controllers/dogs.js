@@ -99,21 +99,27 @@ function getSomeDogs(req, res) {
 			if (dogsResult.length < 8 || dogsResult.length < standarLimit)
 				return res.send({
 					dogs: dogsResult,
-					previousUrl: `http://localhost:3001/dogs/?filter=${filter}&filtervalue=${filterValue}&orderby=${
+					previousUrl: `${
+						process.env.BACKEND_URL
+					}/dogs/?filter=${filter}&filtervalue=${filterValue}&orderby=${
 						order[0]
 					}&direction=${order[1]}&offset0=${
 						standarOffset - standarLimit
 					}&limit=${standarLimit}`,
 					nextUrl: null,
 				});
-			const nextUrl = `http://localhost:3001/dogs/?filter=${filter}&filtervalue=${filterValue}&orderby=${
+			const nextUrl = `${
+				process.env.BACKEND_URL
+			}/dogs/?filter=${filter}&filtervalue=${filterValue}&orderby=${
 				order[0]
 			}&direction=${order[1]}&offset0=${
 				standarOffset + standarLimit
 			}&limit=${standarLimit}`;
 			const previousUrl = !standarOffset
 				? null
-				: `http://localhost:3001/dogs/?filter=${filter}&filtervalue=${filterValue}&orderby=${
+				: `${
+						process.env.BACKEND_URL
+				  }/dogs/?filter=${filter}&filtervalue=${filterValue}&orderby=${
 						order[0]
 				  }&direction=${order[1]}&offset0=${
 						standarOffset - standarLimit
