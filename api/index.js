@@ -42,5 +42,5 @@ conn.sync({force: true}).then(() => {
 			})
 			.catch((err) => console.log(err));
 	});
-	console.log('Conexión exitosa a ' + bucket.name);
+	//console.log('Conexión exitosa a ' + bucket.name);
 });
