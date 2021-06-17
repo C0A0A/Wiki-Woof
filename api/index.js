@@ -31,7 +31,7 @@ conn.sync({force: true}).then(() => {
 	server.listen(PORT, () => {
 		console.log('%s listening at 3001');
 		// eslint-disable-line no-console
-		axios
+		/* axios
 			.get(RAZASURL)
 			.then((res) => {
 				let temps = getApiTemperaments(res.data);
@@ -40,7 +40,7 @@ conn.sync({force: true}).then(() => {
 				);
 				return Promise.all(promisesTemps);
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => console.log(err)); */
 	});
 	//console.log('Conexión exitosa a ' + bucket.name);
 });
