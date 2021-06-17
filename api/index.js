@@ -23,7 +23,7 @@ const {RAZASURL} = require('./constants.js');
 const axios = require('axios');
 const {getApiTemperaments} = require('./utils.js');
 const {Temperament} = require('./src/db.js');
-const bucket = require('./src/storage.js');
+//const bucket = require('./src/storage.js');
 const PORT = process.env.PORT || 3000;
 
 // Syncing all the models at once.
