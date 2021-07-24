@@ -52,6 +52,40 @@
 		opacity: 0%;
 	}
 }
+@-webkit-keyframes slider {
+	0% {
+		left: 0%;
+		opacity: 50%;
+	}
+	16% {
+		left: 0%;
+		opacity: 100%;
+	}
+	30% {
+		left: -100%;
+		opacity: 100%;
+	}
+	44% {
+		left: -200%;
+		opacity: 100%;
+	}
+	58% {
+		left: -300%;
+		opacity: 100%;
+	}
+	72% {
+		left: -400%;
+		opacity: 100%;
+	}
+	86% {
+		left: -500%;
+		opacity: 100%;
+	}
+	100% {
+		left: -500%;
+		opacity: 0%;
+	}
+}
 
 .img-slide {
 	width: auto;
