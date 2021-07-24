@@ -92,9 +92,9 @@ input:focus {
 }
 
 #pagination-button-left {
-	background-image: url('https://storage.googleapis.com/dogs-web-app/LeftArrow.png');
+	background-image: url('https://res.cloudinary.com/c0a0a/image/upload/v1627139893/Wiki-woof/LeftArrow_os2qut.png');
 }
 
 #pagination-button-right {
-	background-image: url('https://storage.googleapis.com/dogs-web-app/RigthArrow.png');
+	background-image: url('https://res.cloudinary.com/c0a0a/image/upload/v1627139893/Wiki-woof/RigthArrow_nk1wfg.png');
 }

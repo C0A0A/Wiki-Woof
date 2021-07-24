@@ -1,31 +1,36 @@
 import React, {useEffect} from 'react';
 import './dog.css';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {getDogDetail} from '../../actions/index';
 import {NavLink} from 'react-router-dom';
+import {v4 as idGenerator} from 'uuid';
 
 export function Dog(props) {
+	const dogDetail = useSelector((state) => state.dogDetail);
+	const dispatch = useDispatch();
+
 	useEffect(() => {
 		const dogId = props.match && props.match.params.id;
-		dogId && props.getDogDetail(dogId);
+		dogId && dispatch(getDogDetail(dogId));
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 	return (
-		<div id={props.detail ? 'global-dog-container' : ''}>
+		<div
+			className={
+				props.home ? 'global-dog-container' : 'global-detail-container'
+			}
+		>
 			<div
-				key={
-					props.dog ? props.dog.id + 'div' : props.dogDetail.id + 'div' + 'div'
-				}
-				className={props.dog ? 'dog-container' : 'dog-container dog-detail'}
+				key={idGenerator()}
+				className={props.home ? 'dog-container' : 'dog-detail'}
 			>
-				{props.detail && <h2>{props.dogDetail.name}</h2>}
-				{props.dog.image_url && (
-					<img
-						key={'image' + props.dog.id || 'image' + props.dogDetail.id}
-						src={props.dog.image_url || props.dogDetail.image_url}
-						className={props.dog ? 'img-home' : 'img-dog-detail'}
-						alt={props.dog.name || props.dogDetail.name}
-					/>
-				)}
+				{!props.home && <h2 className='title'>{dogDetail.name}</h2>}
+				<img
+					key={idGenerator()}
+					src={props.home ? props.dog.image_url : dogDetail.image_url}
+					className={props.home ? 'img-home' : 'img-dog-detail'}
+					alt={props.home ? props.dog.name : dogDetail.name}
+				/>
+
 				{props.home && (
 					<NavLink
 						exact
@@ -36,33 +41,31 @@ export function Dog(props) {
 					</NavLink>
 				)}
 
-				{props.detail && (
-					<div>
-						<span key={'weight' + props.dogDetail.weight}>
+				{!props.home && (
+					<div className='info-container'>
+						<span key={idGenerator()}>
 							{' '}
-							<b>Peso:</b> {props.dogDetail.weight} kg.
+							<b>Peso:</b> {dogDetail.weight} kg.
 						</span>
-						<span key={'height' + props.dogDetail.height}>
-							<b>Altura:</b> {props.dogDetail.height} m.
+						<span key={idGenerator()}>
+							<b>Altura:</b> {dogDetail.height} cm.
 						</span>
-						<span key={'life_span' + props.dogDetail.life_span}>
-							<b>Esperanza de vida:</b> {props.dogDetail.life_span}.
+						<span key={idGenerator()}>
+							<b>Esperanza de vida:</b> {dogDetail.life_span}.
 						</span>
 					</div>
 				)}
 				{props.dog && props.dog.temperament ? (
-					<span key={'temperament' + props.dog.temperament}>
-						{props.dog.temperament}.
-					</span>
-				) : props.dogDetail && props.dogDetail.temperament ? (
-					<span key={'temperament' + props.dogDetail.temperament}>
-						<b>Temperamento:</b> {props.dogDetail.temperament}.
+					<span key={idGenerator()}>{props.dog.temperament}.</span>
+				) : dogDetail && dogDetail.temperament ? (
+					<span key={idGenerator()}>
+						<b>Temperamento:</b> {dogDetail.temperament}.
 					</span>
 				) : (
 					<span>
 						Woof? Puedes agregar mi
 						<NavLink
-							key={props.dog ? props.dog.id : props.dogDetail.id}
+							key={idGenerator()}
 							exact
 							to={`/temperament/`}
 							className='link-dog-detail'
@@ -77,16 +80,4 @@ export function Dog(props) {
 	);
 }
 
-function mapStateToProps(state) {
-	return {
-		dogDetail: state.dogDetail,
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		getDogDetail: (id) => dispatch(getDogDetail(id)),
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dog);
+export default Dog;

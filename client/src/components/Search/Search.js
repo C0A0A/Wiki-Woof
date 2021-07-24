@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import './search.css';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {searchDogs, searchDogsNavigation} from '../../actions/index';
 
-export function Search(props) {
+export function Search() {
+	const dispatch = useDispatch();
+	const filterDogs = useSelector((state) => state.filterDogs);
+
 	const [input, setInput] = useState({
 		filter: 'name',
 		filterValue: '',
@@ -20,18 +23,20 @@ export function Search(props) {
 	}
 	function handleSubmit(e) {
 		e.preventDefault();
-		props.searchDogs(
-			input.filter,
-			input.filterValue,
-			input.order,
-			input.direction,
-			input.standarLimit
+		dispatch(
+			searchDogs(
+				input.filter,
+				input.filterValue,
+				input.order,
+				input.direction,
+				input.standarLimit
+			)
 		);
 	}
 	function handleClick(e) {
 		e.target.name === 'left'
-			? props.searchDogsNavigation(props.filterDogs.previousUrl)
-			: props.searchDogsNavigation(props.filterDogs.nextUrl);
+			? dispatch(searchDogsNavigation(filterDogs.previousUrl))
+			: dispatch(searchDogsNavigation(filterDogs.nextUrl));
 	}
 
 	return (
@@ -42,7 +47,7 @@ export function Search(props) {
 				className='pagination-button'
 				name='left'
 				onClick={handleClick}
-				disabled={props.filterDogs.previousUrl ? '' : 'disabled'}
+				disabled={filterDogs.previousUrl ? '' : 'disabled'}
 			></button>
 			<form className='form-container' onSubmit={(e) => handleSubmit(e)}>
 				<div className='search-div'>
@@ -110,24 +115,10 @@ export function Search(props) {
 				type='button'
 				name='right'
 				onClick={handleClick}
-				disabled={props.filterDogs.nextUrl ? '' : 'disabled'}
+				disabled={filterDogs.nextUrl ? '' : 'disabled'}
 			></button>
 		</div>
 	);
 }
 
-function mapStateToProps(state) {
-	return {
-		filterDogs: state.filterDogs,
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		searchDogs: (filter, filterValue, order, direction, standarLimit) =>
-			dispatch(searchDogs(filter, filterValue, order, direction, standarLimit)),
-		searchDogsNavigation: (url) => dispatch(searchDogsNavigation(url)),
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default Search;

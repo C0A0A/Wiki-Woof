@@ -8,7 +8,9 @@ export default function NavBar() {
 			<div id='ww-container'>
 				<img
 					id='logo-WikiWoof'
-					src={'https://storage.googleapis.com/dogs-web-app/logoWWpng.png'}
+					src={
+						'https://res.cloudinary.com/c0a0a/image/upload/v1627139808/Wiki-woof/logoWWpng_bk8rcl.png'
+					}
 					width='50'
 					height='50'
 					className='d-inline-block align-top'

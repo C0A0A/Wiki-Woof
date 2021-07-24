@@ -7,8 +7,9 @@ export default function Landing() {
 	return (
 		<div className='landing-container'>
 			<h1 id='landing-title'>Woof woof! Bienvenidos!</h1>
-			<Slider />
-
+			<div>
+				<Slider />
+			</div>
 			<div id='sub'>
 				<p id='landing-text'>
 					Wiki Woof es una comunidad dedicada a ellos, los amigos más nobles que

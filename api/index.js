@@ -23,8 +23,7 @@ const {RAZASURL} = require('./constants.js');
 const axios = require('axios');
 const {getApiTemperaments} = require('./utils.js');
 const {Temperament} = require('./src/db.js');
-const bucket = require('./src/storage.js');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Syncing all the models at once.
 conn.sync({force: true}).then(() => {
@@ -42,5 +41,4 @@ conn.sync({force: true}).then(() => {
 			})
 			.catch((err) => console.log(err));
 	});
-	console.log('Conexión exitosa a ' + bucket.name);
 });

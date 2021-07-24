@@ -1,13 +1,17 @@
 import React, {useEffect} from 'react';
 import './home.css';
 import Search from '../Search/Search.js';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {searchDogs} from '../../actions/index.js';
 import Dog from '../Dog/Dog.js';
+import {v4 as idGenerator} from 'uuid';
 
-export function Home(props) {
+export function Home() {
+	const filterDogs = useSelector((state) => state.filterDogs);
+	const dispatch = useDispatch();
+
 	useEffect(() => {
-		!props.filterDogs.dogs && props.searchDogs();
+		!filterDogs.dogs && dispatch(searchDogs());
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
@@ -16,50 +20,13 @@ export function Home(props) {
 				<Search />
 			</div>
 			<div id='dogs-container'>
-				{props.filterDogs.dogs &&
-					props.filterDogs.dogs.map((dog, i) => (
-						<Dog key={i + dog} dog={dog} home={true} />
+				{filterDogs.dogs &&
+					filterDogs.dogs.map((dog, i) => (
+						<Dog key={idGenerator()} dog={dog} home={true} />
 					))}
 			</div>
 		</div>
 	);
 }
 
-{
-}
-function mapStateToProps(state) {
-	return {
-		filterDogs: state.filterDogs,
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		searchDogs: (
-			filter,
-			filterValue,
-			order,
-			direction,
-			mix,
-			standarOffset,
-			standarLimit,
-			mixOffsetDb,
-			mixOffsetApi
-		) =>
-			dispatch(
-				searchDogs(
-					filter,
-					filterValue,
-					order,
-					direction,
-					mix,
-					standarOffset,
-					standarLimit,
-					mixOffsetDb,
-					mixOffsetApi
-				)
-			),
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

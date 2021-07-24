@@ -18,12 +18,12 @@ export function searchDogs(
 	return function (dispatch) {
 		// eslint-disable-next-line
 		return fetch(
-			`${process.env.REACT_APP_BACKEND_URL}dogs/?` +
+			`${process.env.REACT_APP_BACKEND_URL}/dogs/?` +
 				`filter=${filter}&` +
 				`filtervalue=${filterValue}&` +
 				`orderby=${order}&` +
 				`direction=${direction}&` +
-				`limit=${standarLimit}&`
+				`limit=${standarLimit}`
 		)
 			.then((response) => response.json())
 			.then((json) => {
@@ -46,7 +46,7 @@ export function searchDogsNavigation(url) {
 
 export function getDogDetail(id) {
 	return function (dispatch) {
-		return fetch(`${process.env.REACT_APP_BACKEND_URL}` + id)
+		return fetch(`${process.env.REACT_APP_BACKEND_URL}/dogs/` + id)
 			.then((response) => response.json())
 			.then((json) => {
 				dispatch({type: GET_DOG_DETAIL, payload: json});
@@ -55,11 +55,11 @@ export function getDogDetail(id) {
 	};
 }
 
-export function getDogsCreated(filter = 'name', filterValue) {
+export function getDogsCreated(filter = 'name', filterValue = '') {
 	// eslint-disable-next-line
 	return function (dispatch) {
 		return fetch(
-			`${process.env.REACT_APP_BACKEND_URL}` +
+			`${process.env.REACT_APP_BACKEND_URL}/dbdogs?` +
 				`filter=${filter}&` +
 				`filtervalue=${filterValue}`
 		)
@@ -73,7 +73,7 @@ export function getDogsCreated(filter = 'name', filterValue) {
 
 export function addBredd(data) {
 	return function (dispatch) {
-		return fetch(`${process.env.REACT_APP_BACKEND_URL}`, {
+		return fetch(`${process.env.REACT_APP_BACKEND_URL}/dogs`, {
 			method: 'POST',
 			body: data,
 			headers: {
@@ -90,7 +90,7 @@ export function addBredd(data) {
 
 export function getTemperaments() {
 	return function (dispatch) {
-		return fetch(`${process.env.REACT_APP_BACKEND_URL}`)
+		return fetch(`${process.env.REACT_APP_BACKEND_URL}/temperament`)
 			.then((response) => response.json())
 			.then((json) => {
 				dispatch({type: GET_TEMPERAMENTS, payload: json});
@@ -101,7 +101,7 @@ export function getTemperaments() {
 
 export function addTemperament(data) {
 	return function (dispatch) {
-		return fetch(`${process.env.REACT_APP_BACKEND_URL}`, {
+		return fetch(`${process.env.REACT_APP_BACKEND_URL}/temperament`, {
 			method: 'POST',
 			body: JSON.stringify(data),
 			headers: {

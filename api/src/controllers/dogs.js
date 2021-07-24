@@ -6,8 +6,7 @@ const {RAZASURL} = require('../../constants.js');
 const {API_KEY} = process.env;
 const axios = require('axios');
 const {v4: newUuid} = require('uuid');
-const {STORAGE_BASEURL} = require('../../constants.js');
-const bucket = require('../storage.js');
+const cloudinary = require('../cloudinary.js');
 const {bubbleSort} = require('../../utils.js');
 
 function getSomeDogs(req, res) {
@@ -204,9 +203,7 @@ function addBreed(req, res) {
 			itemsCreated.push(data);
 			if (!file && !temperaments) return data;
 			if (file && !temperaments) {
-				return bucket.upload(file.path, {
-					destination: file.filename,
-				});
+				return cloudinary.v2.uploader.upload(file.path, {folder: 'Wiki-woof'});
 			}
 			let temperamentsToPromises = temperaments.map((temp) =>
 				Temperament.findOrCreate({
@@ -215,13 +212,10 @@ function addBreed(req, res) {
 			);
 			if (!file) {
 				return Promise.all(temperamentsToPromises);
-			}
-			if (file) {
+			} else {
 				return Promise.all(
 					[
-						bucket.upload(file.path, {
-							destination: file.filename,
-						}),
+						cloudinary.v2.uploader.upload(file.path, {folder: 'Wiki-woof'}),
 					].concat(temperamentsToPromises)
 				);
 			}
@@ -231,24 +225,22 @@ function addBreed(req, res) {
 				itemsCreated[0].dataValues.temperament = null;
 				return data;
 			}
-			if (data[0][0] instanceof Temperament) {
+			if (Array.isArray(data) && !data[0].public_id) {
 				itemsCreated[0].dataValues.temperament = temperaments.join(', ');
 				let dogTemperaments = data.map((temp) =>
 					temp[0].addDogs([itemsCreated[0]])
 				);
 				return Promise.all(dogTemperaments);
 			}
-			const url = data[0].name
-				? STORAGE_BASEURL + data[0].name
-				: STORAGE_BASEURL + data[0][0].name;
-			const id = data[0].id ? data[0].id : data[0][0].id;
+			const url = data.public_id ? data.secure_url : data[0].secure_url;
+			const id = data.public_id ? data.public_id : data[0].public_id;
 			const dogId = itemsCreated[0].dataValues.id;
 			const newImage = {
 				id,
 				urlImage: url,
 				dogId,
 			};
-			if (data[0].name) {
+			if (data.public_id) {
 				itemsCreated[0].dataValues.temperament = null;
 				return Image.create(newImage);
 			}
@@ -266,9 +258,11 @@ function addBreed(req, res) {
 				: (itemsCreated[0].dataValues.image_url = null);
 			return res.send(itemsCreated[0].dataValues);
 		})
-		.catch((err) =>
-			res.status(500).send({type: 'Internal Server Error.', error: err.message})
-		);
+		.catch((err) => {
+			res
+				.status(500)
+				.send({type: 'Internal Server Error.', error: err.message});
+		});
 }
 
 function findById(req, res) {
