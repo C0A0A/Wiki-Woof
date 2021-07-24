@@ -1,5 +1,8 @@
 import React from 'react';
 import './Slider.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import {Carousel} from 'react-responsive-carousel';
+import {v4 as idGenerator} from 'uuid';
 
 export default function Slider() {
 	let imagesToSlide = [
@@ -13,18 +16,20 @@ export default function Slider() {
 
 	return (
 		<div className='slider-container'>
-			{imagesToSlide.map((image, i) => {
-				return (
-					<div key={i + '-slide'} className='slide'>
-						<img
-							key={i + '-image'}
-							src={image}
-							className='img-slide'
-							alt='Happy dogs playing.'
-						/>
-					</div>
-				);
-			})}
+			<Carousel infiniteLoop autoPlay showStatus={false} showThumbs={false}>
+				{imagesToSlide.map((image, i) => {
+					return (
+						<div key={idGenerator()} className='slide'>
+							<img
+								key={idGenerator()}
+								src={image}
+								className='img-slide'
+								alt='Happy dogs playing.'
+							/>
+						</div>
+					);
+				})}
+			</Carousel>
 		</div>
 	);
 }
