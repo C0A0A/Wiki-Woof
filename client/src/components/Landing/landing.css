@@ -4,6 +4,7 @@
 
 #landing-text {
 	color: black;
+	width: 80%;
 }
 
 .landing-container {
@@ -29,4 +30,12 @@
 	justify-content: center;
 	align-items: center;
 	padding: 2vh;
+}
+
+#slider-container {
+	width: 50%;
+}
+#slider-sup{
+	display: flex;
+	justify-content: center;
 }

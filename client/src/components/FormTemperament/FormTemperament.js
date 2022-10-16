@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './formtemperament.css';
 import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import {
 	getTemperaments,
 	addTemperament,
@@ -53,9 +54,7 @@ export function setter(input) {
 export function FormTemperament({
 	allTemperaments,
 	getTemperaments,
-	dogsCreated,
 	addTemperament,
-	temperamentDetail,
 	getDogsCreated,
 }) {
 	useEffect(() => {
@@ -65,6 +64,8 @@ export function FormTemperament({
 			emptyTemperamentDetail();
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const dogsCreated = useSelector((state) => state.dogsCreated);
 	const [temperaments, setTemperaments] = useState({
 		otros: '',
 	});
@@ -73,10 +74,6 @@ export function FormTemperament({
 	const [filterValue, setFilter] = useState('');
 	const [dogs, setDogs] = useState({});
 	const [errors, setErrors] = useState({});
-	const [state, setState] = useState({
-		init: false,
-		completed: false,
-	});
 	const [temperamentsList, setTemperamentsList] = useState([]);
 	const [dogsList, setDogsList] = useState([]);
 
@@ -97,22 +94,15 @@ export function FormTemperament({
 		});
 		getTemperaments();
 		setTemperaments(setter(temperaments));
+		getDogsCreated('name', '');
 		setDogs({});
 		setFilter('');
 		setErrors({});
 		setTemperamentsList([]);
-		setState({
-			completed: true,
-			init: false,
-		});
 	}
 
 	function handleSubmitSearch(e) {
 		e.preventDefault();
-		setState({
-			...state,
-			init: true,
-		});
 		setFilter('');
 		setDogsSelected({});
 		setDogsList([]);
@@ -189,7 +179,7 @@ export function FormTemperament({
 									type='text'
 									id='filterValue'
 									name='filterValue'
-									placeholder='Buscar raza'
+									placeholder='Nombre'
 									value={filterValue}
 									onChange={handleChangeSearch}
 								/>
@@ -217,7 +207,8 @@ export function FormTemperament({
 							BUSCAR
 						</button>
 					</form>
-					{dogsCreated.length && state.init ? (
+
+					{dogsCreated.length ? (
 						dogsCreated.map((dog, i) => (
 							<div key={dog.id} className='dog-container'>
 								{dog.image_url && (
@@ -290,7 +281,7 @@ export function FormTemperament({
 							id='newtemperaments'
 							className={errors.otros ? 'search-div danger' : 'search-div'}
 							name='otros'
-							placeholder='Crear'
+							placeholder='Otros'
 							value={temperaments.otros}
 							onChange={handleChangeOtrosTemp}
 						/>
@@ -298,9 +289,7 @@ export function FormTemperament({
 							className='btn-submit'
 							type='submit'
 							onClick={(e) => setErrors(validate(temperaments, dogs))}
-							disabled={
-								Object.keys(errors).length || !state.init ? 'disabled' : ''
-							}
+							disabled={Object.keys(errors).length ? 'disabled' : ''}
 						>
 							AÑADIR
 						</button>
@@ -308,28 +297,6 @@ export function FormTemperament({
 				</form>
 			</div>
 			{errors.otros && <p className='danger-alert'>{'! ' + errors.otros}</p>}
-			<div id={temperamentDetail[0] ? 'form-temp-response-success' : 'null'}>
-				{temperamentDetail && temperamentDetail.length && state.completed ? (
-					<h3>
-						¡Woof, woof! Muchas gracias por tu contribución! Observa tu creación
-					</h3>
-				) : null}
-				{temperamentDetail && state.completed
-					? temperamentDetail.map((temp, i) => (
-							<NavLink
-								key={i + temp + 'link'}
-								exact
-								to={`/dogs/${temp.dogId}`}
-								className='link-created'
-							></NavLink>
-					  ))
-					: null}
-			</div>
-			{temperamentDetail && !temperamentDetail.length && state.completed ? (
-				<h3 className='danger-alert'>
-					Woof? Algo salió mal. ¡Inténtalo de nuevo!
-				</h3>
-			) : null}
 		</div>
 	);
 }

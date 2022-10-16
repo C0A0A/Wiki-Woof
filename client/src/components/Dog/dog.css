@@ -15,6 +15,10 @@
 	height: auto;
 	width: 95%;
 	border-radius: 0.5rem;
+	background-image: url('https://res.cloudinary.com/c0a0a/image/upload/v1665922167/Wiki-woof/Spinner-huella-color_coy1ta.gif');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 20%;
 }
 
 .global-dog-container {
@@ -48,12 +52,17 @@
 	background-color: #ffffff;
 }
 
+
 .img-home {
 	width: 250px;
 	height: 250px;
 	border-radius: 5px;
 	padding: 0.3em;
 	align-self: center;
+	background-image: url('https://res.cloudinary.com/c0a0a/image/upload/v1665922167/Wiki-woof/Spinner-huella-color_coy1ta.gif');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 20%;
 	background-color: #ffffff;
 }
 

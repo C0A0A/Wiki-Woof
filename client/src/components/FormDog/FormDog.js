@@ -72,7 +72,7 @@ export function FormDog(props) {
 
 	useEffect(() => {
 		props.getDogsCreated();
-	}, [input.name]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	function submiting(e) {
 		e.preventDefault();

@@ -24,6 +24,7 @@ export function Dog(props) {
 				className={props.home ? 'dog-container' : 'dog-detail'}
 			>
 				{!props.home && <h2 className='title'>{dogDetail.name}</h2>}
+
 				<img
 					key={idGenerator()}
 					src={props.home ? props.dog.image_url : dogDetail.image_url}
@@ -61,20 +62,7 @@ export function Dog(props) {
 					<span key={idGenerator()}>
 						<b>Temperamento:</b> {dogDetail.temperament}.
 					</span>
-				) : (
-					<span>
-						Woof? Puedes agregar mi
-						<NavLink
-							key={idGenerator()}
-							exact
-							to={`/temperament/`}
-							className='link-dog-detail'
-						>
-							{' temperamento'}
-						</NavLink>
-						?
-					</span>
-				)}
+				) : null}
 			</div>
 		</div>
 	);

@@ -25,7 +25,6 @@ export default function NavBar() {
 							Inicio
 						</NavLink>
 						<NavLink to='/dogs'>Razas</NavLink>
-						<NavLink to='/temperament'>Temperamentos</NavLink>
 						<NavLink to='/creation'>Creación</NavLink>
 					</li>
 				</ul>

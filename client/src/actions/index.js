@@ -59,7 +59,7 @@ export function getDogsCreated(filter = 'name', filterValue = '') {
 	// eslint-disable-next-line
 	return function (dispatch) {
 		return fetch(
-			`${process.env.REACT_APP_BACKEND_URL}/dbdogs?` +
+			`${process.env.REACT_APP_BACKEND_URL}/dogs/dbdogs?` +
 				`filter=${filter}&` +
 				`filtervalue=${filterValue}`
 		)
