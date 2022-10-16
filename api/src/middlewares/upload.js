@@ -13,7 +13,10 @@ const fileFilter = (req, file, cb) => {
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null, __dirname.replace('middlewares', 'public/uploads'));
+		cb(
+			null,
+			path.resolve(__dirname.replace('middlewares', 'public'), 'uploads')
+		);
 	},
 	filename: function (req, file, cb) {
 		cb(
