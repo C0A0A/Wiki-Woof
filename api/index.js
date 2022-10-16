@@ -21,7 +21,7 @@ const server = require('./src/app.js');
 const {conn} = require('./src/db.js');
 const {RAZASURL} = require('./constants.js');
 const axios = require('axios');
-const {getApiTemperaments} = require('./utils.js');
+const {getApiTemperaments} = require('./src/utils.js');
 const {Temperament} = require('./src/db.js');
 const PORT = process.env.PORT || 3001;
 

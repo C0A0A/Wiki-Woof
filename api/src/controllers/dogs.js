@@ -7,7 +7,7 @@ const {API_KEY} = process.env;
 const axios = require('axios');
 const {v4: newUuid} = require('uuid');
 const cloudinary = require('../cloudinary.js');
-const {bubbleSort} = require('../../utils.js');
+const {bubbleSort} = require('../utils.js');
 
 function getSomeDogs(req, res) {
 	const filter = req.query.filter ? req.query.filter : 'name';
