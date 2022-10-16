@@ -106,5 +106,4 @@ dist
 # package-lock.json
 package-lock.json
 
-#Public/uploads
-public/uploads/*
+
