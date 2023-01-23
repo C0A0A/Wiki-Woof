@@ -2,6 +2,47 @@
 	display: flex;
 	justify-content: center;
 	margin: 0.5em;
+	align-items: center;
+}
+
+@media (max-width:860px) {
+	.form-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 60%;
+			margin: 0.5rem;
+	}
+	.search-div {
+		width: 100%;
+		justify-content: space-between;
+	}
+.searchContainer {
+	align-items:flex-end;
+}
+#pagination-button-left {
+position: absolute;
+margin-bottom: 0.6rem;
+margin-right: 25vmax;
+}
+
+#pagination-button-right {
+position: absolute;
+margin-bottom: 0.6rem;
+margin-left: 25vmax;
+}
+
+}
+
+@media (max-width:440px) {
+	.search-div {
+		flex-direction: column;
+		height: max-content;
+		padding: 0.5rem;
+		text-align: center;
+		align-items: center;
+	}
+	
 }
 
 .form-container {
@@ -41,6 +82,7 @@ input {
 	border-radius: 0.8rem;
 	padding-left: 0.5rem;
 	color: #0bc0d6;
+	width: 100%;
 }
 
 input:focus {
@@ -54,8 +96,7 @@ input:focus {
 	height: 2rem;
 	border-radius: 0.8rem;
 	align-items: center;
-	margin-left: 0.5rem;
-	margin-right: 0.5rem;
+	margin: 0.5rem;
 }
 
 .btn-submit {
@@ -63,8 +104,7 @@ input:focus {
 	width: 5rem;
 	padding: 1px;
 	border-radius: 0.8rem;
-	margin-left: 0.5rem;
-	margin-right: 0.5rem;
+	margin: 0.5rem;
 	border-color: #ffffff;
 	border-width: 1.5px;
 	background-color: #0bc0d6;

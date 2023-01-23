@@ -1,19 +1,16 @@
-#landing-title {
-	margin: 2vh;
-}
 
 #landing-text {
 	color: black;
-	width: 80%;
 }
 
 .landing-container {
+	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 }
 
 #link-home {
-	margin-left: 20px;
 	background-color: #0bc0d6;
 	border-radius: 0.8rem;
 	width: max-content;
@@ -24,16 +21,18 @@
 }
 
 #sub {
-	background-color: #ffffffd3;
+	background-color: #ffffff5f;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	padding: 2vh;
+	padding: 0.8rem;
+	border-radius: 1rem;
+	width: 52%;
 }
 
 #slider-container {
-	width: 50%;
+	width:52%;
 }
 #slider-sup{
 	display: flex;

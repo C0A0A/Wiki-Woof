@@ -5,23 +5,23 @@
 	height: 100%;
 	box-sizing: border-box;
 	margin: 0;
-	padding: 0;
-	overflow: hidden;
-}
-
-.slide {
-	min-width: 100%;
-	height: 100%;
-	position: relative;
-	transition: 1s;
-	overflow: hidden;
+	padding: 1rem;
 }
 
 .img-slide {
-	width: auto;
-	height: 95%;
-	border-radius: 5px;
+	border-radius: 1rem;
 	padding: 0.3em;
 	align-self: center;
 	background-color: #ffffff;
 }
+
+
+.legend-sub {
+	bottom: 0px !important;
+}
+
+.legend-up {
+	top: 0px;
+	height: max-content;
+}
+

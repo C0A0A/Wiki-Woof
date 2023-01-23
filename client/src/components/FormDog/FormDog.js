@@ -5,57 +5,8 @@ import {NavLink} from 'react-router-dom';
 import {addBredd, getDogsCreated, getDogDetail} from '../../actions/index.js';
 import {setter} from '../FormTemperament/FormTemperament.js';
 import {FcAddImage} from 'react-icons/fc';
-
-export function validate(obj, dogs) {
-	let errors = {};
-	if (!obj.name) {
-		errors.name = 'Campo requerido.';
-		return errors;
-	}
-	if (obj.name && !/^[A-Za-z\s]+$/g.test(obj.name)) {
-		errors.name = 'Sólo palabras sin tilde.';
-		return errors;
-	}
-	if (
-		obj.name &&
-		dogs.length &&
-		dogs.find(
-			(dog) => dog.name.toLowerCase().trim() === obj.name.toLowerCase().trim()
-		)
-	) {
-		errors.name = 'La raza ya existe.';
-		return errors;
-	}
-	if (!obj.weight) {
-		errors.weight = 'Campo requerido.';
-		return errors;
-	}
-	if (obj.weight && !/[0-9-]+$/.test(obj.weight)) {
-		errors.weight = 'Sólo un rango de números, ejemplo: 5 - 8';
-		return errors;
-	}
-	if (!obj.height) {
-		errors.height = 'Campo requerido.';
-		return errors;
-	}
-	if (obj.height && !/[0-9-]+$/.test(obj.height)) {
-		errors.height = 'Sólo un rango de números, ejemplo: 5 - 8';
-		return errors;
-	}
-	if (obj.temperament && !/^[A-Za-z,\s]+$/g.test(obj.temperament)) {
-		errors.temperament = 'Sólo palabras sin tilde separadas por coma.';
-		return errors;
-	}
-	if (
-		obj.file &&
-		(!/image\/jpeg|png/.test(obj.file.type) || obj.file.size > 5242880)
-	) {
-		errors.file = 'Sólo imágenes .png y .jpeg, menores a 5.24 MB.';
-		return errors;
-	}
-
-	return errors;
-}
+import Swal from 'sweetalert2';
+import {validate} from './utils.js';
 
 export function FormDog(props) {
 	const [errors, setErrors] = React.useState({});
@@ -74,6 +25,24 @@ export function FormDog(props) {
 		props.getDogsCreated();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+	function alert(resp) {
+		console.log(resp, 'ENTRO A ALERT!!!!!!!!!!');
+		if (state && props.dogDetail && props.dogDetail.name) {
+			Swal.fire({
+				title: '<strong>¡Woof, Woof! Observa tu creación</strong>',
+				icon: 'success',
+			});
+		} else if (state && props.dogDetail && props.dogDetail.error) {
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Something went wrong!',
+			});
+		} else if (state) {
+			Swal.fire('The Internet?', 'That thing is still around?', 'question');
+		}
+	}
+
 	function submiting(e) {
 		e.preventDefault();
 		let formData = new FormData();
@@ -88,8 +57,8 @@ export function FormDog(props) {
 				temperament: input.temperament,
 			})
 		);
-		props.addBredd(formData);
 		setState(true);
+		props.addBredd(formData).then((resp) => alert(resp));
 		setter(input);
 		document.getElementById('input-file').value = '';
 	}
@@ -239,7 +208,7 @@ export function FormDog(props) {
 			{props.dogDetail && props.dogDetail.name && state ? (
 				<div id='form-response-container'>
 					<h3>
-						¡Woof, woof! Muchas gracias por tu contribución!
+						¡Woof, Woof! Muchas gracias por tu contribución.
 						<br />
 						Observa tu creación:
 					</h3>
@@ -251,9 +220,7 @@ export function FormDog(props) {
 						{props.dogDetail.name}
 					</NavLink>
 				</div>
-			) : (
-				<div></div>
-			)}
+			) : null}
 			{props.dogDetail && props.dogDetail.error && state ? (
 				<div id='form-response-container'>
 					<h3>Woof? Algo salió mal. ¡Inténtalo de nuevo!</h3>

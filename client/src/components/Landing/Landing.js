@@ -6,7 +6,6 @@ import Slider from '../Slider/Slider.js';
 export default function Landing() {
 	return (
 		<div className='landing-container'>
-			<h1 id='landing-title'>Woof Woof!</h1>
 			<div id='slider-sup'>
 				<div id='slider-container'>
 					<Slider />
@@ -14,8 +13,7 @@ export default function Landing() {
 			</div>
 			<div id='sub'>
 				<p id='landing-text'>
-					Wiki Woof está dedicada a nosotros, los amigos más nobles que puedes
-					tener 🐾 <br />
+					Woof Woof! ¡Gracias por visitarnos! 🐾 <br />
 					Aquí, podrás ver información sobre las distintas razas y aportar
 					contenido. <br />
 					Waf! ¿Qué esperas, te animas a encontrar la raza secreta? 🙀

@@ -9,7 +9,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: 20px;
+	margin-top: 1rem;
 	background-color: white;
 	width: 40%;
 	height: max-content;
@@ -25,7 +25,7 @@ h2 {
 	display: flex;
 	justify-content: center;
 	width: 100%;
-	margin-bottom: 10px;
+	margin-bottom: 0.8rem;
 	align-items: center;
 }
 .inputElement > input.danger {
@@ -45,8 +45,8 @@ p.danger {
 	outline-width: 0.5em;
 }
 .inputElement > input {
-	margin-left: 20px;
-	width: 200px;
+	margin-left: 0.8rem;
+	width: 12rem;
 	height: 2rem;
 	padding: 0;
 	border-radius: 0.5rem;
@@ -59,7 +59,7 @@ p.danger {
 }
 
 .inputElement > label {
-	width: 150px;
+	width: 10rem;
 	text-align: left;
 	font-weight: bold;
 }
@@ -82,7 +82,7 @@ p.danger {
 }
 #label-imagen {
 	width: max-content;
-	margin-right: 10px;
+	margin-right: 0.5rem;
 }
 
 #form-response-container {
@@ -90,10 +90,10 @@ p.danger {
 	color: black;
 	height: max-content;
 	width: 40%;
-	border-radius: 10px;
+	border-radius: 0.5rem;
 	padding: 2rem;
 	align-items: center;
-	margin-top: 20px;
+	margin-top: 1rem;
 }
 
 .link-created {
@@ -103,4 +103,26 @@ p.danger {
 }
 
 
+@media (max-width:750px) {
+	.inputElement {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			width: 100%;
+			margin-bottom: 0.8rem;
+			align-items: center;
+		}
+	.inputElement>label {
+	text-align: center;
+	}
+}
 
+
+@media (max-width:420px) {
+	.inputElement>input {
+			width: 80%;
+		}
+	.inputElement>label {
+		width: 80%;
+		}
+}

@@ -16,10 +16,17 @@ export default function Slider() {
 
 	return (
 		<div className='slider-container'>
-			<Carousel infiniteLoop autoPlay showStatus={false} showThumbs={false}>
+			<Carousel
+				showStatus={false}
+				showThumbs={false}
+				showIndicators={false}
+				autoPlay
+				infiniteLoop
+				interval={3000}
+			>
 				{imagesToSlide.map((image, i) => {
 					return (
-						<div key={idGenerator()} className='slide'>
+						<div key={idGenerator()}>
 							<img
 								key={idGenerator()}
 								src={image}
