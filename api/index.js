@@ -17,31 +17,43 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+require('dotenv').config();
 const server = require('./src/app.js');
 const {conn} = require('./src/db.js');
-//const {RAZASURL} = require('./constants.js');
-//const axios = require('axios');
-//const {getApiTemperaments} = require('./src/utils.js');
-//const {Temperament} = require('./src/db.js');
+const {RAZASURL} = require('./constants.js');
+const axios = require('axios');
+const {getApiTemperaments} = require('./src/utils.js');
+const {Temperament} = require('./src/db.js');
 const PORT = process.env.PORT || 3001;
 
 // Syncing all the models at once.
-conn.sync({force: false}).then(() => {
-	server.listen(PORT, () => {
-		console.log('%s listening at 3001');
-		// eslint-disable-line no-console
+if (process.env.NODE_ENV === 'development') {
+	conn
+		.sync({force: true})
+		.then(() => {
+			server.listen(PORT, () => {
+				console.log('Listening at', PORT); // eslint-disable-line no-console
 
-		/*Con force en true, crear temperamentos
-		axios
-			.get(RAZASURL)
-			.then((res) => {
-				let temps = getApiTemperaments(res.data);
-				let promisesTemps = temps.map((temperament) =>
-					Temperament.create({name: temperament})
-				);
-				return Promise.all(promisesTemps);
-			})
-			.catch((err) => console.log(err));
-			*/
-	});
-});
+				axios
+					.get(RAZASURL)
+					.then((res) => {
+						let temps = getApiTemperaments(res.data);
+						let promisesTemps = temps.map((temperament) =>
+							Temperament.create({name: temperament})
+						);
+						return Promise.all(promisesTemps);
+					})
+					.catch((err) => console.log(err));
+			});
+		})
+		.catch((err) => console.log(err));
+} else {
+	conn
+		.sync({force: false})
+		.then(() => {
+			server.listen(PORT, () => {
+				console.log('Listening at', PORT); // eslint-disable-line no-console
+			});
+		})
+		.catch((err) => console.log(err));
+}
