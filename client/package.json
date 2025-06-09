@@ -25,10 +25,10 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-scripts --openssl-legacy-provider build start",
+    "build": "react-scripts --openssl-legacy-provider build build",
+    "test": "react-scripts --openssl-legacy-provider build test",
+    "eject": "react-scripts --openssl-legacy-provider build eject"
   },
   "eslintConfig": {
     "extends": [
